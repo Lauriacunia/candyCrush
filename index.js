@@ -1,26 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid')
+  const scoreDisplay = document.getElementById('score')
   const width = 8
   const squares = []
   let score = 0
-  const frutas = ['🍉', '🍌', '🍇', '🍎', '🍒', '🥝', '🍓', '🍍', '🥥']
-  const candyColors = [
-    'red',
-    'yellow',
-    'orange',
-    'purple',
-    'green',
-    'blue'
-
-  ]
-
-  const obtenerNumeroAlAzar = (array) => {
-    return Math.floor((Math.random() * array.length))
-  }
   
-  const obtenerItemAlAzar = (array) => {
-    return array[obtenerNumeroAlAzar(array)]
-  }
+  
+  const candyColors = [
+      'url(images/red-candy.png)',
+      'url(images/yellow-candy.png)',
+      'url(images/orange-candy.png)',
+      'url(images/purple-candy.png)',
+      'url(images/green-candy.png)',
+      'url(images/blue-candy.png)'
+    ]
+  
+  
+
   // crear board
 
   const createBoard = () =>{
@@ -29,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
       square.setAttribute('draggable', true)
       square.setAttribute('id', i)
       let randomColor = Math.floor(Math.random()* candyColors.length)
-      square.style.backgroundColor = candyColors[randomColor]
+      square.style.backgroundImage = candyColors[randomColor]
       grid.appendChild(square)
       squares.push(square)
       
@@ -52,16 +48,12 @@ let squareIdBeingReplaced
 
 
 function dragStart () {
-  colorBeingDragged = this.style.backgroundColor
+  colorBeingDragged = this.style.backgroundImage
   squareIdBeingDragged = parseInt(this.id)
-
-  console.log(colorBeingDragged)
-    console.log(this.id, 'dragstart')
+  this.style.backgroundImage = ''
   }
 
   function dragEnd () {
-    console.log(this.id, 'dragend')
-
     // puedo mover?
     let validMoves = [
        squareIdBeingDragged - 1,
@@ -76,19 +68,19 @@ function dragStart () {
       if (squareIdBeingReplaced && validMove){
         squareIdBeingReplaced = null
       }else if (squareIdBeingReplaced && !validMove) {
-        squares[squareIdBeingReplaced].style.backgroundColor = colorBeingReplaced
-        squares[squareIdBeingDragged].style.backgroundColor = colorBeingDragged
-      }else squares[squareIdBeingDragged].style.backgroundColor = colorBeingDragged
+        squares[squareIdBeingReplaced].style.backgroundImage = colorBeingReplaced
+        squares[squareIdBeingDragged].style.backgroundImage = colorBeingDragged
+      }else squares[squareIdBeingDragged].style.backgroundImage = colorBeingDragged
   }
 
   function dragOver (e) {
     e.preventDefault()
-    console.log(this.id, 'dragover')
+   
   }
 
   function dragEnter (e) {
     e.preventDefault()
-    console.log(this.id, 'dragenter')
+   
   }
 
   function dragLeave () {
@@ -96,11 +88,11 @@ function dragStart () {
   }
 
   function dragDrop () {
-    console.log(this.id, 'dragdrop')
-    colorBeingReplaced = this.style.backgroundColor
+    
+    colorBeingReplaced = this.style.backgroundImage
     squareIdBeingReplaced = parseInt(this.id)
-    this.style.backgroundColor = colorBeingDragged
-    squares[squareIdBeingDragged].style.backgroundColor = colorBeingReplaced
+    this.style.backgroundImage = colorBeingDragged
+    squares[squareIdBeingDragged].style.backgroundImage = colorBeingReplaced
   }
 
 // Buscar Matches
@@ -110,18 +102,18 @@ function dragStart () {
 function checkRowForThree() {
   for (i = 0; i < 61; i ++) {
     let rowOfThree = [i, i+1, i+2]
-    let decidedColor = squares[i].style.backgroundColor
-    const isBlank = squares[i].style.backgroundColor === ''
+    let decidedColor = squares[i].style.backgroundImage
+    const isBlank = squares[i].style.backgroundImage === ''
 
     // para que no compare con la fila de abajo...corrige ese error
     const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55]
     if (notValid.includes(i)) continue
 
-    if(rowOfThree.every(index => squares[index].style.backgroundColor === decidedColor && !isBlank)) {
+    if(rowOfThree.every(index => squares[index].style.backgroundImage === decidedColor && !isBlank)) {
       score += 3
-      //scoreDisplay.innerHTML = score
+      scoreDisplay.innerHTML = score
       rowOfThree.forEach(index => {
-      squares[index].style.backgroundColor = ''
+      squares[index].style.backgroundImage = ''
       })
     }
   }
@@ -131,14 +123,14 @@ checkRowForThree()
 function checkColumnForThree() {
   for (i = 0; i < 47; i ++) {
     let columnOfThree = [i, i+width, i+width*2]
-    let decidedColor = squares[i].style.backgroundColor
-    const isBlank = squares[i].style.backgroundColor === ''
+    let decidedColor = squares[i].style.backgroundImage
+    const isBlank = squares[i].style.backgroundImage === ''
 
-    if(columnOfThree.every(index => squares[index].style.backgroundColor === decidedColor && !isBlank)) {
+    if(columnOfThree.every(index => squares[index].style.backgroundImage === decidedColor && !isBlank)) {
       score += 3
-      //scoreDisplay.innerHTML = score
+      scoreDisplay.innerHTML = score
       columnOfThree.forEach(index => {
-      squares[index].style.backgroundColor = ''
+      squares[index].style.backgroundImage = ''
       })
     }
   }
@@ -158,7 +150,7 @@ function checkRowForFour() {
 
     if(rowOfFour.every(index => squares[index].style.backgroundImage === decidedColor && !isBlank)) {
       score += 4
-      //scoreDisplay.innerHTML = score
+      scoreDisplay.innerHTML = score
       rowOfFour.forEach(index => {
       squares[index].style.backgroundImage = ''
       })
