@@ -206,7 +206,7 @@ window.setInterval(function(){
   checkColumnForFour()
   moveIntoSquareBelow()
   
-}, 100);
+}, 200);
 
 
 
