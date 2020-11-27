@@ -113,8 +113,9 @@ function checkRowForThree() {
     let decidedColor = squares[i].style.backgroundColor
     const isBlank = squares[i].style.backgroundColor === ''
 
-    //const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55]
-    //if (notValid.includes(i)) continue
+    // para que no compare con la fila de abajo...corrige ese error
+    const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55]
+    if (notValid.includes(i)) continue
 
     if(rowOfThree.every(index => squares[index].style.backgroundColor === decidedColor && !isBlank)) {
       score += 3
@@ -143,6 +144,46 @@ function checkColumnForThree() {
   }
 }
 checkColumnForThree()
+
+// Buscar matches de 4
+function checkRowForFour() {
+  for (i = 0; i < 60; i ++) {
+    let rowOfFour = [i, i+1, i+2, i+3]
+    let decidedColor = squares[i].style.backgroundImage
+    const isBlank = squares[i].style.backgroundImage === ''
+
+    //para que no busque en la fila de abajo
+    const notValid = [5, 6, 7, 13, 14, 15, 21, 22, 23, 29, 30, 31, 37, 38, 39, 45, 46, 47, 53, 54, 55]
+    if (notValid.includes(i)) continue
+
+    if(rowOfFour.every(index => squares[index].style.backgroundImage === decidedColor && !isBlank)) {
+      score += 4
+      //scoreDisplay.innerHTML = score
+      rowOfFour.forEach(index => {
+      squares[index].style.backgroundImage = ''
+      })
+    }
+  }
+}
+checkRowForFour()
+
+//for column of Four
+function checkColumnForFour() {
+  for (i = 0; i < 39; i ++) {
+    let columnOfFour = [i, i+width, i+width*2, i+width*3]
+    let decidedColor = squares[i].style.backgroundImage
+    const isBlank = squares[i].style.backgroundImage === ''
+
+    if(columnOfFour.every(index => squares[index].style.backgroundImage === decidedColor && !isBlank)) {
+      score += 4
+      scoreDisplay.innerHTML = score
+      columnOfFour.forEach(index => {
+      squares[index].style.backgroundImage = ''
+      })
+    }
+  }
+}
+checkColumnForFour()
 
 
 window.setInterval(function(){
