@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
   
   
   const candyColors = [
-      'url(images/red-candy.png)',
-      'url(images/yellow-candy.png)',
-      'url(images/orange-candy.png)',
-      'url(images/purple-candy.png)',
-      'url(images/green-candy.png)',
-      'url(images/blue-candy.png)'
+      'url(images/pug2.png)',
+      'url(images/pug3.png)',
+      'url(images/pug4.png)',
+      'url(images/pug5.png)',
+      'url(images/pug6.png)',
+      'url(images/pug7.png)'
     ]
   
   
