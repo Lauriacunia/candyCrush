@@ -186,9 +186,33 @@ function checkColumnForFour() {
 checkColumnForFour()
 
 
+
+
+
+// Chequear si un cuadradito esta vacio--> bajar el de arriba
+function moveIntoSquareBelow() {
+  for (i = 0; i < 55; i ++) {
+      if(squares[i + width].style.backgroundImage === '') {
+          squares[i + width].style.backgroundImage = squares[i].style.backgroundImage
+          squares[i].style.backgroundImage = ''
+          const firstRow = [0, 1, 2, 3, 4, 5, 6, 7]
+          const isFirstRow = firstRow.includes(i)
+          if (isFirstRow && (squares[i].style.backgroundImage === '')) {
+            let randomColor = Math.floor(Math.random() * candyColors.length)
+            squares[i].style.backgroundImage = candyColors[randomColor]
+          }
+      }
+  }
+}
+
+
+
 window.setInterval(function(){
   checkRowForThree()
   checkColumnForThree()
+  checkRowForFour()
+  checkColumnForFour()
+  moveIntoSquareBelow()
   
 }, 100);
 
