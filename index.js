@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid')
   const width = 8
   const squares = []
+  let score = 0
   const frutas = ['🍉', '🍌', '🍇', '🍎', '🍒', '🥝', '🍓', '🍍', '🥥']
   const candyColors = [
     'red',
@@ -53,6 +54,7 @@ let squareIdBeingReplaced
 function dragStart () {
   colorBeingDragged = this.style.backgroundColor
   squareIdBeingDragged = parseInt(this.id)
+
   console.log(colorBeingDragged)
     console.log(this.id, 'dragstart')
   }
@@ -97,8 +99,38 @@ function dragStart () {
     console.log(this.id, 'dragdrop')
     colorBeingReplaced = this.style.backgroundColor
     squareIdBeingReplaced = parseInt(this.id)
+    this.style.backgroundColor = colorBeingDragged
     squares[squareIdBeingDragged].style.backgroundColor = colorBeingReplaced
   }
+
+// Buscar Matches
+// buscar en filas-- horizontales
+
+function checkRowForThree() {
+  console.log("estas buscando maches en linea")
+
+  for(i = 0; i < 61; i++) {
+    console.log("estas dentro del for")
+    let rowOfThree = [i, i+1, i+2]
+    let decidedColor = squares[i].style.backgroundColor
+    console.log(decidedColor)
+    const isBlank = squares[i].style.background === ''
+    
+    if(rowOfThree.every(index => squares[index].style.backgroundColor === decidedColor && !isBlank)) {
+      score += 3
+      rowOfThree.forEach(index => {
+      squares[index].style.backgroundColor = ''
+      })
+
+    }
+  }
+}
+
+checkRowForThree()
+
+
+
+
 
 
 })
